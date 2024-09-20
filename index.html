@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo Dígito Verificador - Correios</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cálculo do Dígito Verificador</h1>
+        <p>Calcule o dígito verificador do código de rastreamento dos Correios</p>
+
+        <div class="form-group">
+            <label for="codigo">Insira os 8 dígitos centrais:</label>
+            <input type="text" id="codigo" maxlength="8" placeholder="Ex: 12345678">
+        </div>
+
+        <button onclick="calcularDigito()">Calcular Dígito Verificador</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function calcularDigito() {
+            var codigo = document.getElementById("codigo").value;
+
+            // Verifica se o código tem 8 dígitos
+            if (codigo.length !== 8 || isNaN(codigo)) {
+                alert("Por favor, insira um código válido com 8 dígitos.");
+                return;
+            }
+
+            // Multiplicadores
+            var multiplicadores = [8, 6, 4, 2, 3, 5, 9, 7];
+            var soma = 0;
+
+            // Calcula a soma ponderada dos dígitos
+            for (var i = 0; i < 8; i++) {
+                soma += parseInt(codigo[i]) * multiplicadores[i];
+            }
+
+            // Calcula o dígito verificador
+            var resto = soma % 11;
+            var digito = 11 - resto;
+
+            // Tratamento de casos especiais para o dígito
+            if (digito === 10) digito = 0;
+            if (digito === 11) digito = 5;
+
+            // Exibe o resultado
+            document.getElementById("resultado").innerText = "O dígito verificador é: " + digito;
+        }
+    </script>
+</body>
+</html>
